@@ -49,4 +49,19 @@ export default class Character {
     this.attack *= multi;
     this.defence *= multi;
   }
+
+  /** рассчитывает урон по персонажу
+   * меняет значение health
+   *
+   * @param {number} points - значение урона по персонажу
+   *
+   * @throws {error} error - если здоровье <= 0
+   */
+  damage(points) {
+    if (this.health <= 0) {
+      throw new Error("ему уже все равно");
+    }
+
+    this.health -= points * (1 - this.defence / 100);
+  }
 }

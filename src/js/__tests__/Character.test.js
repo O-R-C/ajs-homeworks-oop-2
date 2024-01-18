@@ -51,15 +51,44 @@ describe("test class Character", () => {
     });
   });
 
+  describe("method damage", () => {
+    test("health = 100", () => {
+      const damage = 50;
+      const character = new Character("test");
+      character.damage(damage);
+
+      const reference = 100 - damage * (1 - 1 / 100);
+
+      expect(character.health).toBe(reference);
+    });
+
+    test("health = 0", () => {
+      const character = new Character("test");
+      character.health = 0;
+
+      expect(() => character.damage(10)).toThrow("ему уже все равно");
+    });
+  });
+
   describe("method levelUp", () => {
     describe("health > 0", () => {
       test("health 100", () => {
         const character = new Character("test");
         character.levelUp();
 
+        expect(character.health).toBe(100);
         expect(character.attack).toBe(1.2);
         expect(character.defence).toBe(1.2);
       });
+    });
+
+    test("health = 0", () => {
+      const character = new Character("test");
+      character.health = 0;
+
+      expect(() => character.levelUp()).toThrow(
+        "нельзя повысить левел умершего"
+      );
     });
   });
 });
