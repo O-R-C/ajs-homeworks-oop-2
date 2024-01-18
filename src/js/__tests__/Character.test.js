@@ -1,6 +1,18 @@
 import Character from "../Classes/Character";
 
 describe("test class Character", () => {
+  test("correct create", () => {
+    const result = new Character("Character");
+
+    expect(result).toEqual({
+      level: 1,
+      attack: 1,
+      defence: 1,
+      health: 100,
+      _name: "Character",
+    });
+  });
+
   describe("correct name", () => {
     const names = ["Андрей", "Вовчик", "Денис", "Нагибатор", "Язь"];
 
@@ -39,13 +51,15 @@ describe("test class Character", () => {
     });
   });
 
-  test("correct create", () => {
-    const result = new Character("Character");
+  describe("method levelUp", () => {
+    describe("health > 0", () => {
+      test("health 100", () => {
+        const character = new Character("test");
+        character.levelUp();
 
-    expect(result).toEqual({
-      level: 1,
-      health: 100,
-      _name: "Character",
+        expect(character.attack).toBe(1.2);
+        expect(character.defence).toBe(1.2);
+      });
     });
   });
 });
