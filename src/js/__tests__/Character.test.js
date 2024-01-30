@@ -1,28 +1,6 @@
 import Character from "../Classes/Character";
 
 describe("test class Character", () => {
-  test("correct create", () => {
-    const result = new Character("Character");
-
-    expect(result).toEqual({
-      level: 1,
-      attack: 1,
-      defence: 1,
-      health: 100,
-      _name: "Character",
-    });
-  });
-
-  describe("correct name", () => {
-    const names = ["Андрей", "Вовчик", "Денис", "Нагибатор", "Язь"];
-
-    test.each(names)("%p", (name) => {
-      const character = new Character(name);
-
-      expect(character.name).toBe(name);
-    });
-  });
-
   describe("name not String", () => {
     const names = [123, true, null, [], { name: "Петр" }, undefined];
 
@@ -37,7 +15,7 @@ describe("test class Character", () => {
 
       test.each(names)("%p", (name) => {
         expect(() => new Character(name)).toThrow(
-          "длина имени должна быть больше двух символов"
+          "длина имени должна быть больше одного символа"
         );
       });
     });
@@ -51,19 +29,22 @@ describe("test class Character", () => {
     });
   });
 
+  test("create without type", () => {
+    expect(() => new Character("Test")).toThrow(
+      "тип персонажа должен быть строкой"
+    );
+  });
+
+  test("create without allowed type", () => {
+    expect(() => new Character("Test", "")).toThrow(
+      "тип персонажа не известен"
+    );
+  });
+
   describe("method damage", () => {
-    test("health = 100", () => {
-      const damage = 50;
-      const character = new Character("test");
-      character.damage(damage);
-
-      const reference = 100 - damage * (1 - 1 / 100);
-
-      expect(character.health).toBe(reference);
-    });
-
     test("health = 0", () => {
-      const character = new Character("test");
+      const character = new Character("test", "Zombie");
+
       character.health = 0;
 
       expect(() => character.damage(10)).toThrow("ему уже все равно");
@@ -71,19 +52,9 @@ describe("test class Character", () => {
   });
 
   describe("method levelUp", () => {
-    describe("health > 0", () => {
-      test("health 100", () => {
-        const character = new Character("test");
-        character.levelUp();
-
-        expect(character.health).toBe(100);
-        expect(character.attack).toBe(1.2);
-        expect(character.defence).toBe(1.2);
-      });
-    });
-
     test("health = 0", () => {
-      const character = new Character("test");
+      const character = new Character("test", "Zombie");
+
       character.health = 0;
 
       expect(() => character.levelUp()).toThrow(

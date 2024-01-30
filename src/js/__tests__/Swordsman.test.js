@@ -9,7 +9,7 @@ describe("test class Swordsman", () => {
       attack: 40,
       defence: 10,
       health: 100,
-      type: "Swordsman",
+      _type: "Swordsman",
       _name: "Swordsman",
     });
   });
